@@ -10,18 +10,12 @@ import (
 var templ *template.Template
 
 func init() {
-	templ = template.Must(template.ParseGlob("image/*.html"))
+	templ = template.Must(template.ParseGlob("webpage/*.html"))
 }
 
 func calc(w http.ResponseWriter, r *http.Request) {
 	templ.ExecuteTemplate(w, "calc.html", nil)
 }
-
-// func calculator(w http.ResponseWriter, r *http.Request) {
-// 	switch r.FormValue() {
-// 	case "clear" :
-// 	}
-// }
 
 func main() {
 	port := os.Getenv("PORT")
@@ -31,6 +25,6 @@ func main() {
 	}
 
 	http.HandleFunc("/", calc)
-	http.Handle("/image/", http.FileServer(http.Dir("/image/styles.css")))
+	// http.HandleFunc("/", http.FileServer(http.Dir("webpage/")))
 	http.ListenAndServe(":"+port, nil)
 }
