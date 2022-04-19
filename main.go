@@ -1,20 +1,18 @@
 package main
 
 import (
+	"html/template"
 	"log"
 	"net/http"
 	"os"
 )
 
-// var templ *template.Template
+var templ *template.Template
 
-// func init() {
-// 	templ = template.Must(template.ParseGlob("webpage/*.html"))
-// }
-
-// func calc(w http.ResponseWriter, r *http.Request) {
-// 	templ.ExecuteTemplate(w, "calc.html", nil)
-// }
+func calc(w http.ResponseWriter, r *http.Request) {
+	templ, _ = template.ParseFiles("./webpage/calc.html")
+	templ.Execute(w, "calc.html")
+}
 
 func main() {
 	port := os.Getenv("PORT")
@@ -23,7 +21,15 @@ func main() {
 		log.Printf("Setting default port to %s", port)
 	}
 
-	// http.HandleFunc("/", calc)
-	http.Handle("/", http.FileServer(http.Dir("webpage/")))
-	http.ListenAndServe(":"+port, nil)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "/webpage/styles.css")
+	})
+
+	http.HandleFunc("/", calc)
+
+	err := http.ListenAndServe(":"+port, nil)
+
+	if err != nil {
+		log.Fatal("Cannot connect server to " + port)
+	}
 }
