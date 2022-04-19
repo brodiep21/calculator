@@ -9,9 +9,12 @@ import (
 
 var templ *template.Template
 
+func init() {
+	templ = template.Must(template.ParseGlob("page/*.html"))
+}
+
 func calc(w http.ResponseWriter, r *http.Request) {
-	templ, _ = template.ParseFiles("./webpage/calc.html")
-	templ.Execute(w, "calc.html")
+	templ.ExecuteTemplate(w, "calc.html", nil)
 }
 
 func main() {
@@ -21,10 +24,9 @@ func main() {
 		log.Printf("Setting default port to %s", port)
 	}
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "/webpage/styles.css")
-	})
+	hp := http.FileServer(http.Dir("style"))
 
+	http.Handle("/style/", http.StripPrefix("/style", hp))
 	http.HandleFunc("/", calc)
 
 	err := http.ListenAndServe(":"+port, nil)
