@@ -1,5 +1,5 @@
 // This function clear all the values
-function clearScreen() {
+function clearDisplay() {
     document.getElementById("result").value = "";
 }
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Golang Calculator</title>
-    <link rel="stylesheet" href="tags/styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <!-- //need to make a handler to pull class names and switch the data -->
 
@@ -13,7 +13,7 @@
     <table class="calculator">
         <tr>
             <td colspan="3"> <input class="display-box" name="display" type="text" id="result" disabled /> </td>
-            <td> <input class="button" name="clear" type="button" value="C" onclick="clearScreen()"
+            <td> <input class="button" name="clear" type="button" value="C" onclick="clearDisplay()"
                     style="background-color: #c75905;" />
             </td>
         </tr>
@@ -44,7 +44,8 @@
         </tr>
     </table>
     </table>
-    <script type="text/javascript" src="tags/calc.js"></script>
+
 </body>
+<script type="text/javascript" src="calc.js"></script>
 
 </html>
